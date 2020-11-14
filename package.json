@@ -1,7 +1,6 @@
 {
   "name": "project2-server",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +14,11 @@
   "bugs": {
     "url": "https://github.com/viviandanggg/project2-server/issues"
   },
-  "homepage": "https://github.com/viviandanggg/project2-server#readme"
+  "homepage": "https://github.com/viviandanggg/project2-server#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
 }
