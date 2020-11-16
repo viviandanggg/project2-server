@@ -81,6 +81,26 @@ app.post('/budget', (request, response) => {
     })
 });
 
+app.patch('/budget/:id', (request, response) => {
+    const query = "UPDATE budget SET amount = ?, category =?, description =?, year = ?, month = ?, day = ?, increase = ?";
+    const params = [request.body.amount, request.body.category, request.body.description, request.body.year, request.body.month, request.body.day, request.body.increase];
+    connection.query(query, params, (error, result) => {
+        response.send({
+            ok: true,
+        });
+    })
+});
+
+app.delete('/budget/:id', (request, response) => {
+    const query = "UPDATE budget SET is_deleted = 1 WHERE id = ?";
+    const params = [request.params.id];
+    connection.query(query, params, (error, result) => {
+        response.send({
+            ok: true,
+        });
+    })
+});
+
 
 const port = 3443;
 app.listen(port, () => {
