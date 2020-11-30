@@ -22,45 +22,45 @@ function rowToObject(row) {
         increase: row.increase,
     };
 }
-
+/*
 // Query for getting sum spent in a specific month
-app.get('/budget/sum/:month/:year', (request, response) => {
+app.get('/statements/sum/:month/:year', (request, response) => {
     const query = 'SELECT SUM(amount) WHERE is_deleted = 0 AND month = ? AND year = ? FROM budget';
     const params = [request.params.month, request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
             ok: true,
-            budget: rows[0], // check to make sure that this contains result
+            statements: rows[0], // check to make sure that this contains result
         });
     })
 });
 
 // Query for getting amount spent in a year
-app.get('/budget/sum/:year', (request, response) => {
+app.get('/statements/sum/:year', (request, response) => {
     const query = 'SELECT SUM(amount) WHERE is_deleted = 0 AND year = ? FROM budget';
     const params = [request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
             ok: true,
-            budget: rows[0], // check to make sure that this contains result
+            statements: rows[0], // check to make sure that this contains result
         });
     })
 });
 
 // Query for amount spent on specific categories in a month
-app.get('/budget/sum/:month/:year/:category', (request, response) => {
+app.get('/statements/sum/:month/:year/:category', (request, response) => {
     const query = 'SELECT SUM(amount) WHERE is_deleted = 0 AND month = ? AND year = ? GROUP BY category FROM budget';
     const params = [request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
             ok: true,
-            // budget: 
+            // statement: 
         });
     })
 });
-
-app.get('/budget/:year', (request, response) => {
-    const query = 'SELECT * WHERE is_deleted = 0 AND year = ? ORDER BY month, day FROM budget';
+*/
+app.get('/statements/:year', (request, response) => {
+    const query = 'SELECT * WHERE is_deleted = 0 AND YEAR = ? ORDER BY month, day FROM budget';
     const params = [request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
@@ -70,7 +70,7 @@ app.get('/budget/:year', (request, response) => {
     })
 });
 
-app.post('/budget', (request, response) => {
+app.post('/statements', (request, response) => {
     const query = 'INSERT INTO budget(amount, category, description, year, month, day, increase) VALUES (?, ?, ?, ?, ?, ?, ?)';
     const params = [request.body.amount, request.body.category, request.body.description, request.body.year, request.body.month, request.body.day, request.body.increase];
     connection.query(query, params, (error, result) => {
@@ -80,8 +80,8 @@ app.post('/budget', (request, response) => {
         });
     })
 });
-
-app.patch('/budget/:id', (request, response) => {
+/*
+app.patch('/statements/:id', (request, response) => {
     const query = "UPDATE budget SET amount = ?, category =?, description =?, year = ?, month = ?, day = ?, increase = ?";
     const params = [request.body.amount, request.body.category, request.body.description, request.body.year, request.body.month, request.body.day, request.body.increase];
     connection.query(query, params, (error, result) => {
@@ -91,7 +91,7 @@ app.patch('/budget/:id', (request, response) => {
     })
 });
 
-app.delete('/budget/:id', (request, response) => {
+app.delete('/statements/:id', (request, response) => {
     const query = "UPDATE budget SET is_deleted = 1 WHERE id = ?";
     const params = [request.params.id];
     connection.query(query, params, (error, result) => {
@@ -100,8 +100,7 @@ app.delete('/budget/:id', (request, response) => {
         });
     })
 });
-
-
+*/
 const port = 3443;
 app.listen(port, () => {
     console.log(`We're live on port ${port}`);
