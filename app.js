@@ -60,7 +60,7 @@ app.get('/statements/sum/:month/:year/:category', (request, response) => {
 });
 */
 app.get('/statements/:year', (request, response) => {
-    const query = 'SELECT * WHERE is_deleted = 0 AND YEAR = ? ORDER BY month, day FROM budget';
+    const query = 'SELECT * FROM budget WHERE is_deleted = 0 AND year = ? ORDER BY month, day';
     const params = [request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
