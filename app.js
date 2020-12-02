@@ -82,8 +82,8 @@ app.post('/statements', (request, response) => {
 });
 
 app.patch('/statements/:id', (request, response) => {
-    const query = "UPDATE budget SET amount = ?, category =?, description =?, year = ?, month = ?, day = ?, increase = ?";
-    const params = [request.body.amount, request.body.category, request.body.description, request.body.year, request.body.month, request.body.day, request.body.increase];
+    const query = "UPDATE budget SET amount = ?, category =?, description =?, year = ?, month = ?, day = ?, increase = ? WHERE id = ?";
+    const params = [request.body.amount, request.body.category, request.body.description, request.body.year, request.body.month, request.body.day, request.body.increase, request.body.id];
     connection.query(query, params, (error, result) => {
         response.send({
             ok: true,
