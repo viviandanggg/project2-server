@@ -13,8 +13,9 @@ connection.connect();
 
 function rowToObject(row) {
     return {
+        id: row.id,
         amount: row.amount,
-        cateogry: row.category,
+        category: row.category,
         description: row.description,
         year: row.year,
         month: row.month,
