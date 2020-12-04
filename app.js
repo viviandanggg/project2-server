@@ -11,7 +11,7 @@ let credentials = JSON.parse(fs.readFileSync('credentials.json', 'utf8'));
 let connection = mysql.createConnection(credentials);
 connection.connect();
 
-function rowToObject(row) {
+function rowToStatementObject(row) {
     return {
         id: row.id,
         amount: row.amount,
@@ -21,6 +21,12 @@ function rowToObject(row) {
         month: row.month,
         day: row.day,
         increase: row.increase,
+    };
+}
+
+function rowToSumObject(row) {
+    return {
+        sum: row.sum,
     };
 }
 /*
@@ -60,13 +66,25 @@ app.get('/statements/sum/:month/:year/:category', (request, response) => {
     })
 });
 */
+
+app.get('/statements/sum/:year', (request, response) => {
+    const query = 'SELECT deposit - withdrawal as "sum" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0) as b';
+    const params = [request.params.year];
+    connection.query(query, params, (error, rows) => {
+        response.send({
+            ok: true,
+            budget: rows.map(rowToSumObject),
+        });
+    })
+});
+
 app.get('/statements/:year', (request, response) => {
     const query = 'SELECT * FROM budget WHERE is_deleted = 0 AND year = ? ORDER BY month, day';
     const params = [request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
             ok: true,
-            budget: rows.map(rowToObject),
+            budget: rows.map(rowToStatementObject),
         });
     })
 });
