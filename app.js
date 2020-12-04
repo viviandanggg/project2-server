@@ -68,8 +68,8 @@ app.get('/statements/sum/:month/:year/:category', (request, response) => {
 */
 
 app.get('/statements/sum/:year', (request, response) => {
-    const query = 'SELECT deposit - withdrawal as "sum" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0) as b';
-    const params = [request.params.year];
+    const query = 'SELECT deposit - withdrawal as "sum" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0 AND year=?) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0 AND year=?) as b';
+    const params = [request.params.year, request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
             ok: true,
@@ -79,7 +79,7 @@ app.get('/statements/sum/:year', (request, response) => {
 });
 
 app.get('/statements/:year', (request, response) => {
-    const query = 'SELECT * FROM budget WHERE is_deleted = 0 AND year = ? ORDER BY month, day';
+    const query = 'SELECT * FROM budget WHERE is_deleted = 0 AND year = ? ORDER BY month DESC, day DESC';
     const params = [request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
