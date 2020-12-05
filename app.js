@@ -68,7 +68,7 @@ app.get('/statements/sum/:month/:year/:category', (request, response) => {
 */
 
 app.get('/statements/sum/:month/:year', (request, response) => {
-    const query = 'SELECT deposit - withdrawal as "sumYear" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0 AND month=? AND year=?) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0 AND month=? AND year=?) as b';
+    const query = 'SELECT deposit - withdrawal as "sum" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0 AND month=? AND year=?) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0 AND month=? AND year=?) as b';
     const params = [request.params.month, request.params.year, request.params.month, request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
@@ -79,7 +79,7 @@ app.get('/statements/sum/:month/:year', (request, response) => {
 });
 
 app.get('/statements/sum/:year', (request, response) => {
-    const query = 'SELECT deposit - withdrawal as "sumMonth" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0 AND year=?) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0 AND year=?) as b';
+    const query = 'SELECT deposit - withdrawal as "sum" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0 AND year=?) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0 AND year=?) as b';
     const params = [request.params.year, request.params.year];
     connection.query(query, params, (error, rows) => {
         response.send({
