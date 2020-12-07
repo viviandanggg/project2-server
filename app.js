@@ -29,43 +29,6 @@ function rowToSumObject(row) {
         sum: row.sum,
     };
 }
-/*
-// Query for getting sum spent in a specific month
-app.get('/statements/sum/:month/:year', (request, response) => {
-    const query = 'SELECT SUM(amount) WHERE is_deleted = 0 AND month = ? AND year = ? FROM budget';
-    const params = [request.params.month, request.params.year];
-    connection.query(query, params, (error, rows) => {
-        response.send({
-            ok: true,
-            statements: rows[0], // check to make sure that this contains result
-        });
-    })
-});
-
-// Query for getting amount spent in a year
-app.get('/statements/sum/:year', (request, response) => {
-    const query = 'SELECT SUM(amount) WHERE is_deleted = 0 AND year = ? FROM budget';
-    const params = [request.params.year];
-    connection.query(query, params, (error, rows) => {
-        response.send({
-            ok: true,
-            statements: rows[0], // check to make sure that this contains result
-        });
-    })
-});
-
-// Query for amount spent on specific categories in a month
-app.get('/statements/sum/:month/:year/:category', (request, response) => {
-    const query = 'SELECT SUM(amount) WHERE is_deleted = 0 AND month = ? AND year = ? GROUP BY category FROM budget';
-    const params = [request.params.year];
-    connection.query(query, params, (error, rows) => {
-        response.send({
-            ok: true,
-            // statement: 
-        });
-    })
-});
-*/
 
 app.get('/statements/sum/:month/:year', (request, response) => {
     const query = 'SELECT deposit - withdrawal as "sum" FROM (SELECT SUM(amount) as withdrawal FROM budget WHERE increase=0 AND is_deleted = 0 AND month=? AND year=?) as a, (SELECT SUM(amount) as deposit FROM budget WHERE increase=1 AND is_deleted = 0 AND month=? AND year=?) as b';
